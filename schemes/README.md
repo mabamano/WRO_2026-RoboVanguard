@@ -49,8 +49,3 @@ The vehicle power and control system is divided into high-level processing (**Ra
 | **TCS34725 Color Sensor** | I2C | SDA (GPIO 21), SCL (GPIO 22) | Track line color detection |
 
 ---
-
-## 📄 Schematics Included
-
-* `block_diagram.png` → High-level electrical system block diagram.
-* `wiring_schematic.pdf` → Detailed pin-to-pin wiring diagram.
