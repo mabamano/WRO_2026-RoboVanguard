@@ -1,0 +1,15 @@
+[Unit]
+Description=ROBOVANGUARD WRO 2026 Competition Autostart Service
+After=network.target multi-user.target serial-getty@ttyUSB0.service
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/WRO2026/WRO_FE_2023-24-main/my_project_new/raspberry_pi
+ExecStart=/usr/bin/python3 /home/pi/WRO2026/WRO_FE_2023-24-main/my_project_new/raspberry_pi/competition_launcher.py --pin 17
+Restart=on-failure
+RestartSec=5s
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

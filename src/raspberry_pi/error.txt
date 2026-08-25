@@ -1,0 +1,2 @@
+chmod +x my_project_new/raspberry_pi/install_autostart.sh
+./my_project_new/raspberry_pi/install_autostart.sh

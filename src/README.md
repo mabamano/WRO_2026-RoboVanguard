@@ -1,72 +1,71 @@
 # Control Software (`src/`)
 
-This directory contains the autonomous control software for the **ROBOVANGUARD** vehicle participating in the WRO Future Engineers competition. The software runs on a **Raspberry Pi 5** using Python 3, OpenCV, `picamera2`, and PySerial to perform real-time vision processing and send steering/speed commands to the ESP32 RoboGuard motor controller.
+This directory contains the control software for the **ROBOVANGUARD** autonomous vehicle, split into low-level ESP32 motor control firmware and high-level Raspberry Pi 5 computer vision scripts.
 
 ---
 
-## 📁 File Structure
+## 📁 Directory & File Structure
 
-* [`round1.py`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/src/round1.py) → Implementation for **Round 1 (Open Track Challenge)**. Focuses on high-speed black wall contour tracking, counter-steering, direction indicator line detection (orange/blue), and 3-lap counting.
-* [`round2.py`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/src/round2.py) → Implementation for **Round 2 (Obstacle Avoidance & Parking Challenge)**. Features red/green obstacle box detection (red = turn right, green = turn left), line color tracking, lap counting, and automatic parking routine into the parking lot.
-* [`my_old_contour_colorvals_crt.py`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/src/my_old_contour_colorvals_crt.py) → Baseline vision processing script with Lab/HSV color thresholding, ROI extraction helper functions, and serial command output dispatcher.
+### 1. Raspberry Pi 5 Code (`src/raspberry_pi/`)
+High-level control software running on Raspberry Pi OS. Performs webcam image capture, color space masking, contour processing, and sends ASCII serial instructions to the ESP32 controller.
+
+* **`open_challenge_R1.py`** & **`open_challenge_R1_test_1lap.py`**: Main scripts for **Round 1 (Open Track Challenge)**. Uses dual-ROI black wall contour analysis and PD-based wall following.
+* **`obstacle_challenge_R2.py`** & **`obstacle_challenge_R2_test_parking.py`**: Main scripts for **Round 2 (Obstacle Avoidance & Parking Challenge)**. Detects Red and Green obstacle boxes, tracks blue/orange orientation lines, and handles automated magenta parking lot alignment.
+* **`wro_serial.py`**: Manages USB serial communication with auto-port detection (`/dev/ttyUSB*`, `/dev/ttyACM*`, `COM*`), noise clearing, command validation, and telemetry parsing.
+* **`wro_functions.py`**: Common utilities for lane tracking, error calculation, and control parameters.
+* **`masks.py`**: HSV color space mask ranges for Red, Green, Orange, Blue, and Magenta tracking.
+* **`camera_streamer.py`**: Background Live MJPEG debugger. Hosts a local webserver at `http://<pi_ip>:8080` to display processed frames and overlay metadata.
+* **`competition_launcher.py`**: Daemon process listening on GPIO 17 for a physical start button to boot scripts autonomously.
+* **`test_webcam.py`** & **`test_motor_serial.py`**: Diagnostic tools to verify webcam feed indices and serial commands.
+* **`wro_autostart.service`** & **`install_autostart.sh`**: Systemd integration scripts to automatically start the competition launcher at system boot.
+
+### 2. ESP32 low-level Controller (`src/ROBOVANGUARD_WRO_Round_1_Code_Final/`)
+Arduino/C++ firmware compiled and uploaded to the ESP32 RoboGuard controller.
+
+* **`ROBOVANGUARD_WRO_Round_1_Code_Final.ino`**: Manages serial reading, low-level state machines, and DC motor propulsion.
+* **`Lib_Declarations_Setup.ino`**: Configures hardware pins, PWM channels for MG995 steering servo, and ultrasonic sensor trigger/echo loops.
 
 ---
 
-## 🛠️ Software Stack & Prerequisites
+## 🛠️ Software Stack & Dependencies
 
-* **Operating System:** Raspberry Pi OS 64-bit (Debian Bookworm)
-* **Python Version:** Python 3.9+
-* **Dependencies:**
-  * `opencv-python` (OpenCV for image processing and contour extraction)
-  * `picamera2` (Official Raspberry Pi Camera Module 3 / Pi Cam library)
-  * `pyserial` (Serial communication interface with ESP32)
-  * `numpy` (Matrix computations and mask operations)
+The Pi 5 vision system uses a standard **USB Webcam** running OpenCV.
 
-### Installing Dependencies
-
+### Prerequisites (Raspberry Pi 5)
+Ensure Python 3 and the required libraries are installed:
 ```bash
 sudo apt-get update
-sudo apt-get install -y python3-opencv python3-pip python3-numpy python3-picamera2
-pip3 install pyserial
+sudo apt-get install -y python3-opencv python3-numpy python3-pip
+pip3 install pyserial gpiozero
 ```
 
 ---
 
-## 📡 Serial Communication Protocol
+## 📡 Serial Commands
 
-The Raspberry Pi 5 connects to the ESP32 RoboGuard controller via UART on `/dev/serial0` at **115200 baud**. 
-
-Commands are single-character ASCII codes sent periodically or upon state changes:
-
-| Command | ASCII Char | Description |
-| :--- | :--- | :--- |
-| **Forward** | `'f'` | Drives BO DC motor forward with centered steering |
-| **Steer Left** | `'l'` | Pivots MG995 servo left ($\approx -20^\circ$) |
-| **Steer Right** | `'r'` | Pivots MG995 servo right ($\approx +20^\circ$) |
-| **Stop** | `'s'` | Stops DC motor and centers steering servo |
-| **Park** | `'p'` | Initiates parking routine on ESP32 |
+The Pi 5 sends command strings to the ESP32 at **115200 baud**:
+* `"FORWARD"` - Move forward (steering centered)
+* `"BACKWARD"` - Reverse vehicle
+* `"LEFT"` / `"RIGHT"` - Steer left/right dynamically
+* `"STOP"` - Halt vehicle and center steering
+* `"TURN_LEFT"` / `"TURN_RIGHT"` - Hard fixed turns around corners
+* `"AUTO_US_ON"` / `"AUTO_US_OFF"` - Enable/disable ultrasonic wall-following override on ESP32
 
 ---
 
-## 🚀 Execution Instructions
+## 🚀 How to Run
 
-### Running Round 1 (Open Track Challenge)
-
-```bash
-cd ~/WRO_2026-RoboVanguard/src
-python3 round1.py
-```
-
-### Running Round 2 (Obstacle Avoidance & Parking Challenge)
-
-```bash
-cd ~/WRO_2026-RoboVanguard/src
-python3 round2.py
-```
-
----
-
-## 👥 Lead Developers
-
-* **CV Lead:** Manojkumar M (CSBS 4th Yr, Ramco Institute of Technology)
-* **Software Lead:** Abishek Kumar V (CSBS 3rd Yr, Ramco Institute of Technology)
+1. **Verify Webcam and Serial Connections:**
+   ```bash
+   python3 raspberry_pi/test_webcam.py
+   python3 raspberry_pi/test_motor_serial.py
+   ```
+2. **Execute Challenge Run:**
+   - For Round 1: `python3 raspberry_pi/open_challenge_R1.py`
+   - For Round 2: `python3 raspberry_pi/obstacle_challenge_R2.py`
+3. **Automated Button Launch Setup:**
+   Run the installation script to configure system boot behavior:
+   ```bash
+   sudo chmod +x raspberry_pi/install_autostart.sh
+   ./raspberry_pi/install_autostart.sh
+   ```

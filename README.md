@@ -1,8 +1,6 @@
 # 🤖 ROBOVANGUARD – WRO Future Engineers 2026
 
-An intelligent autonomous vehicle engineered for the **Future Engineers** division of the **World Robot Olympiad (WRO)**. This robotic system integrates computer vision, inertial measurement, ultrasonic proximity detection, and precision directional control mechanisms to autonomously execute both **Open Track (Round 1)** and **Obstacle Avoidance & Parking (Round 2)** challenges.
-
-> **Hardware Upgrade Note:** ROBOVANGUARD utilizes an upgraded processing system featuring a **Raspberry Pi 5** paired with a **Pi Camera** for real-time computer vision (black wall contour detection, color zone detection, and sign box identification), replacing the mobile phone-based vision pipeline from previous iterations.
+An intelligent autonomous vehicle engineered for the **Future Engineers** division of the **World Robot Olympiad (WRO)**. This robotic system integrates computer vision, proximity detection, and precision directional control mechanisms to autonomously execute both **Open Track (Round 1)** and **Obstacle Avoidance & Parking (Round 2)** challenges.
 
 ---
 
@@ -10,9 +8,9 @@ An intelligent autonomous vehicle engineered for the **Future Engineers** divisi
 
 * [`t-photos/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/t-photos/) → Team photographs (official competition team image and candid team moment).
 * [`v-photos/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/v-photos/) → Six comprehensive vehicle perspectives (top, bottom, front, back, left, right).
-* [`video/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/video/) → Performance demonstration recordings (30+ second Open Track & Obstacle navigation runs referenced in [`video.md`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/video/video.md)).
-* [`schemes/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/schemes/) → Electrical wiring diagrams, system block diagrams, and circuit schematics.
-* [`src/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/src/) → Python control algorithms, vision pipelines (`round1.py`, `round2.py`), and helper routines.
+* [`video/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/video/) → Performance demonstration recordings (features local video [`Round1_performance.mp4`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/video/Round1_performance.mp4)).
+* [`schemes/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/schemes/) → Electrical wiring diagrams, system block diagrams, and circuit schematics (features [`PCB-bottom.jpeg`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/schemes/PCB-bottom.jpeg) and [`chassie-top.jpeg`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/schemes/chassie-top.jpeg)).
+* [`src/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/src/) → Control software source code including low-level Arduino firmware and Raspberry Pi 5 Python navigation scripts.
 * [`models/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/models/) → 3D printable mechanical components (STL format).
 * [`other/`](file:///c:/Users/mabam/OneDrive/Desktop/WRO2026/WRO-repo/WRO_2026-RoboVanguard/other/) → Supplementary technical documentation, serial protocol notes, and hardware datasheets.
 
@@ -35,8 +33,8 @@ An intelligent autonomous vehicle engineered for the **Future Engineers** divisi
 ## 🔧 Hardware Overview
 
 ### 1. Vision & Core Controller
-* **Raspberry Pi 5 + Pi Camera:** High-speed vision computer running OpenCV and `picamera2` for real-time lane tracking, obstacle box detection, line color recognition, and parking target identification.
-* **Serial Link:** Communicates motion and steering commands directly to the ESP32 controller over high-speed UART (`/dev/serial0` @ 115200 baud).
+* **Raspberry Pi 5 + USB Webcam:** High-speed vision computer running OpenCV for real-time lane tracking, obstacle box detection, line color recognition, and parking target identification. Uses a standard USB Webcam to stream and process frames dynamically.
+* **Serial Link:** Communicates motion and steering commands directly to the ESP32 controller over high-speed USB-to-Serial connection.
 
 ### 2. Central Controller – RoboGuard Unit (ESP32-based)
 * **Dual-core ESP32 Microcontroller:** Executes low-level real-time motor control, servo PWM generation, and ultrasonic distance monitoring.
@@ -45,7 +43,7 @@ An intelligent autonomous vehicle engineered for the **Future Engineers** divisi
 
 ### 3. Motors & Actuation
 * **Propulsion:** Dual-shaft BO DC Motor (300 RPM, 0.35 kg-cm torque) mounted at the rear for smooth acceleration and speed control.
-* **Steering:** MG995 Servo Motor (10–12 kg-cm torque) controlling Ackermann steering geometry with $\pm 20^\circ$ turn angles centered at $100^\circ$.
+* **Steering:** MG995 Servo Motor (10–12 kg-cm torque) controlling Ackermann steering geometry with $\pm 20^\circ$ turn angles.
 
 ### 4. Sensors
 * **Ultrasonic Sensors (6 Units):**
@@ -92,16 +90,16 @@ An intelligent autonomous vehicle engineered for the **Future Engineers** divisi
 ## 🏗️ Chassis & Mechanical Engineering
 
 * **Base Chassis:** 4 mm laser-cut acrylic plate ($280 \times 190\text{ mm}$), balancing structural rigidity and low mass.
-* **Component Placement:** Low Center of Gravity (CG) maintained by positioning the battery and ESP32 centrally.
+* **Component Placement:** Low Center of Gravity (CG) maintained by positioning the battery, UPS HAT, and ESP32 centrally.
 * **3D Printed Supports:** 11 custom SLA 3D printed parts including ultrasonic sensor holders, BO motor mount, start button bracket, and steering linkage pivot bushes.
 
 ---
 
 ## 🔋 Power Management
 
-* **Battery:** 3.7V 3200 mAh Li-ion rechargeable cell.
-* **Charger:** Integrated TP4056 protection module.
-* **Voltage Converters:** MT3608 step-up boost converters supplying stable 3.3V logic to sensors and 5.0V to DC motors and steering servo.
+* **Vision System Power:** **DFRobot Raspberry Pi 5 UPS HAT** — Provides stable, uninterruptible power management directly to the Raspberry Pi 5 and connected USB devices (Webcam), protecting against power brownouts and ensuring stable voltage output.
+* **Controller Power:** 3.7V 3200 mAh Li-ion rechargeable cell.
+* **Voltage Converters:** MT3608 step-up boost converters supplying stable 3.3V logic to low-level sensors and 5.0V to DC motors and the steering servo.
 * **Runtime:** 40–50 minutes of continuous autonomous operation.
 
 ---
@@ -126,8 +124,8 @@ An intelligent autonomous vehicle engineered for the **Future Engineers** divisi
 
 ```mermaid
 flowchart TD
-    A[Power ON / Start Button] --> B[Initialize Pi Camera & Serial Port]
-    B --> C[Capture Frame from Pi Camera]
+    A[Power ON / Start Button] --> B[Initialize USB Webcam & Serial Port]
+    B --> C[Capture Frame from USB Webcam]
     C --> D{Challenge Mode?}
     D -- Round 1 --> E[Process Left/Right Black Wall ROIs]
     E --> F[Calculate PD Steering Angle & Detect Orange/Blue Lines]
@@ -160,4 +158,4 @@ flowchart TD
 
 ## 🎯 Conclusion
 
-ROBOVANGUARD successfully combines **Raspberry Pi 5 vision processing**, **ESP32 real-time motor control**, and **Ackermann mechanical engineering** into a robust, high-performance autonomous robot. Developed through interdisciplinary collaboration (CSBS, MECH, and EEE) at Ramco Institute of Technology, the vehicle demonstrates state-of-the-art AI-driven mobility for WRO Future Engineers.
+ROBOVANGUARD successfully combines **Raspberry Pi 5 vision processing** using a **USB Webcam**, a **DFRobot UPS HAT** for uninterrupted power delivery, **ESP32 real-time motor control**, and **Ackermann mechanical engineering** into a robust, high-performance autonomous robot. Developed through interdisciplinary collaboration (CSBS, MECH, and EEE) at Ramco Institute of Technology, the vehicle demonstrates state-of-the-art AI-driven mobility for WRO Future Engineers.
