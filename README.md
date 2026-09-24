@@ -24,9 +24,8 @@ An intelligent autonomous vehicle engineered for the **Future Engineers** divisi
 | Role | Name | Department / Year | Institution |
 | :--- | :--- | :--- | :--- |
 | **Mentor** | Mr. S. Valai Ganesh | Mech (AP SG) | Ramco Institute of Technology |
-| **CV Lead** | Manojkumar M | CSBS (4th Year) | Ramco Institute of Technology |
-| **Software Lead** | Abishek Kumar V | CSBS (3rd Year) | Ramco Institute of Technology |
-| **Mech Lead** | Anton Mirjone D | Mech (3rd Year) | Ramco Institute of Technology |
+| **Software Lead** | Manojkumar M | CSBS (4th Year) | Ramco Institute of Technology |
+| **Mechanical Lead** | Amrishi Ram Kumar | Mech (3rd Year) | Ramco Institute of Technology |
 
 ---
 
@@ -158,4 +157,4 @@ flowchart TD
 
 ## 🎯 Conclusion
 
-ROBOVANGUARD successfully combines **Raspberry Pi 5 vision processing** using a **USB Webcam**, a **DFRobot UPS HAT** for uninterrupted power delivery, **ESP32 real-time motor control**, and **Ackermann mechanical engineering** into a robust, high-performance autonomous robot. Developed through interdisciplinary collaboration (CSBS, MECH, and EEE) at Ramco Institute of Technology, the vehicle demonstrates state-of-the-art AI-driven mobility for WRO Future Engineers.
+ROBOVANGUARD successfully combines **Raspberry Pi 5 vision processing** using a **USB Webcam**, a **DFRobot UPS HAT** for uninterrupted power delivery, **ESP32 real-time motor control**, and **Ackermann mechanical engineering** into a robust, high-performance autonomous robot. Developed through interdisciplinary collaboration (CSBS and MECH) at Ramco Institute of Technology, the vehicle demonstrates state-of-the-art AI-driven mobility for WRO Future Engineers.

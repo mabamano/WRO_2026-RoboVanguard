@@ -4,9 +4,8 @@
 
   Team ID: 1129 | Team Name: ROBOVANGUARD
   Mentor: Mr. S. Valai Ganesh (Mech, AP SG)
-  Team Leader: M. Manojkumar (CSBS) – Reg. No: 953623244024
-  Hardware Lead: V. Rakshit (EEE) – Reg. No: 953623105044
-  Mechanical: P. Chandru (Mech) – Reg. No: 953623114009
+  Software Lead: Manojkumar M (CSBS) – Reg. No: 953623244024
+  Mechanical Lead: Amrishi Ram Kumar (Mech)
 
   Hybrid Architecture:
   - ESP32 Hardware Driver & Telemetry Engine.
