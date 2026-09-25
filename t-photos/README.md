@@ -12,6 +12,6 @@ This directory contains official and candid photographs of team **ROBOVANGUARD**
 
 ## 👥 Team Roster
 
-* **Mentor:** Mr. S. Valai Ganesh (Assistant Professor Senior Grade, Mechanical Engineering)
+* **Mentor:** Dr. S. Valai Ganesh (Assistant Professor Senior Grade, Mechanical Engineering)
 * **Software Lead:** Manojkumar M (CSBS 4th Year)
-* **Mechanical Lead:** Amrishi Ram Kumar (Mechanical 3rd Year)
+* **Mechanical Lead:** Amrishi Ram Kumar (Mechanical 4th Year)

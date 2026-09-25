@@ -3,7 +3,7 @@
   World Robot Olympiad – Future Engineers Division
 
   Team ID: 1129 | Team Name: ROBOVANGUARD
-  Mentor: Mr. S. Valai Ganesh (Mech, AP SG)
+  Mentor: Dr. S. Valai Ganesh (Mech, AP SG)
   Software Lead: Manojkumar M (CSBS) – Reg. No: 953623244024
   Mechanical Lead: Amrishi Ram Kumar (Mech)
 

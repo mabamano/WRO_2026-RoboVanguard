@@ -23,9 +23,9 @@ An intelligent autonomous vehicle engineered for the **Future Engineers** divisi
 
 | Role | Name | Department / Year | Institution |
 | :--- | :--- | :--- | :--- |
-| **Mentor** | Mr. S. Valai Ganesh | Mech (AP SG) | Ramco Institute of Technology |
+| **Mentor** | Dr. S. Valai Ganesh | Mech (AP SG) | Ramco Institute of Technology |
 | **Software Lead** | Manojkumar M | CSBS (4th Year) | Ramco Institute of Technology |
-| **Mechanical Lead** | Amrishi Ram Kumar | Mech (3rd Year) | Ramco Institute of Technology |
+| **Mechanical Lead** | Amrishi Ram Kumar | Mech (4th Year) | Ramco Institute of Technology |
 
 ---
 
